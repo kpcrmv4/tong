@@ -1,0 +1,1 @@
+export const getBuildVersion = () => localStorage.getItem('appVersion') || '1.0.0';

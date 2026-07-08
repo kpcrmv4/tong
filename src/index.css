@@ -1,0 +1,1230 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Sriracha&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Sriracha", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Tailwind v4 IntelliSense palette: Electric Violet */
+  --color-ev-50: #fbf5ff;
+  --color-ev-100: #f5e7ff;
+  --color-ev-200: #ecd3ff;
+  --color-ev-300: #deb1ff;
+  --color-ev-400: #cb80ff;
+  --color-ev-500: #b84ffd;
+  --color-ev-600: #a020f0;
+  --color-ev-700: #8f1cd4;
+  --color-ev-800: #791cad;
+  --color-ev-900: #63188b;
+  --color-ev-950: #440467;
+
+  /* Backward-compatible aliases for old code/classes that still mention cold-purple */
+  --color-cold-purple-50: #fbf5ff;
+  --color-cold-purple-100: #f5e7ff;
+  --color-cold-purple-200: #ecd3ff;
+  --color-cold-purple-300: #deb1ff;
+  --color-cold-purple-400: #cb80ff;
+  --color-cold-purple-500: #b84ffd;
+  --color-cold-purple-600: #a020f0;
+  --color-cold-purple-700: #8f1cd4;
+  --color-cold-purple-800: #791cad;
+  --color-cold-purple-900: #63188b;
+  --color-cold-purple-950: #440467;
+}
+
+:root {
+  /* ----------------------------------------------------
+     1. PALETTE LAYER (คลังเฉดสีดิบ Electric Violet)
+     ---------------------------------------------------- */
+  --color-ev-50: #fbf5ff;
+  --color-ev-100: #f5e7ff;
+  --color-ev-200: #ecd3ff;
+  --color-ev-300: #deb1ff;
+  --color-ev-400: #cb80ff;
+  --color-ev-500: #b84ffd;
+  /* ม่วงสดสว่าง */
+  --color-ev-600: #a020f0;
+  /* ม่วงสดมาตรฐานสากล */
+  --color-ev-700: #8f1cd4;
+  --color-ev-800: #791cad;
+  --color-ev-900: #63188b;
+  --color-ev-950: #440467;
+
+  /* Backward-compatible aliases: กันไฟล์เก่าที่ยังเรียก cold-purple ไม่พัง */
+  --color-cold-purple-50: var(--color-ev-50);
+  --color-cold-purple-100: var(--color-ev-100);
+  --color-cold-purple-200: var(--color-ev-200);
+  --color-cold-purple-300: var(--color-ev-300);
+  --color-cold-purple-400: var(--color-ev-400);
+  --color-cold-purple-500: var(--color-ev-500);
+  --color-cold-purple-600: var(--color-ev-600);
+  --color-cold-purple-700: var(--color-ev-700);
+  --color-cold-purple-800: var(--color-ev-800);
+  --color-cold-purple-900: var(--color-ev-900);
+  --color-cold-purple-950: var(--color-ev-950);
+
+  /* ----------------------------------------------------
+     2. APP LAYOUT LAYER (กลุ่มพื้นหลังและเลเยอร์หน้าจอ)
+     ---------------------------------------------------- */
+  --app-bg: var(--color-ev-50);
+  /* พื้นหลังแอป */
+  --ui-bg: var(--app-bg);
+  /* alias เดิมที่หลายหน้ากำลังใช้ */
+  --ui-surface: #ffffff;
+  /* พื้นผิวกระดาษหลัก/การ์ดขาว */
+  --ui-card: var(--ui-surface);
+  /* กล่องเมนู รายการสินค้า */
+  --ui-panel: var(--color-ev-100);
+  /* แผงควบคุม คอนเทนเนอร์ หรือ Sidebar */
+  --ui-panel-soft: var(--color-ev-50);
+  /* แผงควบคุมย่อยภายใน */
+
+  /* ----------------------------------------------------
+     3. INTERACTION LAYER (กลุ่มปุ่มและแอคชั่นการกด)
+     ---------------------------------------------------- */
+  --ui-primary: var(--color-ev-600);
+  /* ปุ่มบันทึก ปุ่มคิดเงิน บิลหลัก */
+  --ui-primary-hover: var(--color-ev-700);
+  /* ปุ่มหลักตอนเมาส์ชี้ */
+  --ui-primary-soft: var(--color-ev-100);
+  /* ปุ่มรองแบบพาสเทล */
+  --ui-on-primary: #ffffff;
+  /* ตัวหนังสือบนปุ่มหลัก */
+  --ui-secondary: var(--color-ev-100);
+  /* ปุ่มยกเลิก ปุ่มปิดหน้าต่าง */
+  --ui-secondary-hover: var(--color-ev-200);
+  /* ปุ่มรองตอนเมาส์ชี้ */
+  --ui-accent: var(--color-ev-600);
+  --ui-selected: var(--color-ev-600);
+  /* สีเมนูที่กำลังเลือกอยู่ */
+
+  /* ----------------------------------------------------
+     4. TYPOGRAPHY LAYER (กลุ่มสีตัวอักษร)
+     ---------------------------------------------------- */
+  --text-main: var(--color-ev-950);
+  /* หัวข้อหลัก ยอดเงิน */
+  --text-soft: var(--color-ev-700);
+  /* รายละเอียดทั่วไป */
+  --text-muted: var(--color-ev-500);
+  /* ตัวจาง วันที่ ลายน้ำ */
+  --text-invert: #ffffff;
+  /* ข้อความบนพื้นหลังสีเข้ม */
+  --ui-text: var(--text-main);
+  --ui-structure: var(--text-main);
+  --ui-muted: var(--text-soft);
+
+  /* ----------------------------------------------------
+     5. BORDERS LAYER (กลุ่มเส้นแบ่งสัดส่วน)
+     ---------------------------------------------------- */
+  --ui-border: var(--color-ev-200);
+  /* เส้นแบ่งตาราง กรอบอินพุตทั่วไป */
+  --ui-border-strong: var(--color-ev-400);
+  /* เส้นกรอบเน้นย้ำ */
+  --ui-focus-ring: var(--color-ev-300);
+  /* แสงเรืองรอบอินพุตตอนพิมพ์ */
+  --border: var(--ui-border);
+
+  /* ----------------------------------------------------
+     6. SIZES & SPACING LAYER (ขนาดโครงสร้างแอป)
+     ---------------------------------------------------- */
+  --ui-space-base: 4px;
+  --ui-gap-button: 8px;
+  --ui-control-h: 48px;
+  /* ความสูงมาตรฐานของปุ่มและช่องอินพุต */
+  --ui-button-h: 48px;
+  /* ความสูงปุ่มคิดเงิน/ปุ่มพิมพ์ใบเสร็จ */
+  --ui-icon-hit: 44px;
+  /* พื้นที่กดไอคอน */
+  --ui-icon-visual: 40px;
+  /* ขนาดกล่องไอคอนที่เห็น */
+  --ui-icon-size: 18px;
+  /* ขนาดรูปไอคอน */
+  --ui-table-row-h: 56px;
+  --ui-pos-product-cols: 5;
+  --ui-pos-sidebar-min-w: 320px;
+  --ui-pos-sidebar-max-w: 420px;
+  --ui-table-min-w-mobile: 45rem;
+  --ui-select-compact-min-w: 8rem;
+  --ui-select-compact-max-w: 12rem;
+  --ui-select-month-w: 10rem;
+  --ui-select-year-w: 8.5rem;
+  --ui-switch-w: 44px;
+  --ui-switch-h: 24px;
+  --ui-switch-thumb: 20px;
+  --ui-font-body: 16px;
+  --ui-font-button: 15px;
+  --ui-font-label: 14px;
+  --ui-card-pad: 16px;
+  /* ระยะเว้นขอบในกล่องข้อความ/ป๊อปอัป */
+  --ui-card-pad-sm: 12px;
+  --ui-border-w: 1px;
+
+  --ui-radius-sm: 8px;
+  --ui-radius-md: 12px;
+  /* ความโค้งมนมาตรฐานของปุ่มและอินพุต */
+  --ui-radius-lg: 16px;
+  --ui-radius-xl: 16px;
+  --ui-radius-control: 12px;
+  --ui-radius-badge: 8px;
+  --ui-radius-card: 16px;
+  --ui-radius-panel: var(--ui-radius-card);
+  --ui-radius-modal: var(--ui-radius-card);
+
+  /* ----------------------------------------------------
+     7. GLOBAL STATUS & NEUTRAL LAYER (กลุ่มสีแจ้งเตือนสากล)
+     ---------------------------------------------------- */
+  --ui-danger: #ef4444;
+  /* ปุ่มลบ/ยกเลิกบิล/ระบบ Error */
+  --ui-danger-hover: #dc2626;
+  --ui-danger-soft: #fee2e2;
+  --ui-on-danger: #ffffff;
+
+  --ui-success: #10b981;
+  /* จ่ายเงินสำเร็จ/บันทึกผ่าน */
+  --ui-success-hover: #059669;
+  --ui-success-soft: #d1fae5;
+  --ui-on-success: #ffffff;
+
+  --ui-warning: #f59e0b;
+  /* ค้างชำระ/สต็อกใกล้หมด */
+  --ui-warning-hover: #d97706;
+  --ui-warning-soft: #fef3c7;
+  --ui-on-warning: #111827;
+
+  --ui-disabled-bg: #e5e7eb;
+  --ui-disabled-text: #9ca3af;
+  --ui-error: var(--ui-danger);
+
+  /* Compatibility soft aliases used by old components */
+  --ui-soft-success: var(--ui-success-soft);
+  --ui-soft-warning: var(--ui-warning-soft);
+  --ui-soft-danger: var(--ui-danger-soft);
+
+  /* Interaction and layout tokens */
+  --ui-hover: color-mix(in srgb, var(--ui-primary) 8%, var(--ui-surface));
+  --ui-overlay: color-mix(in srgb, var(--color-ev-950) 56%, transparent);
+  --ui-shadow-soft: 0 16px 40px
+    color-mix(in srgb, var(--color-ev-950) 8%, transparent);
+  --ui-shadow-control: 0 4px 12px
+    color-mix(in srgb, var(--color-ev-950) 8%, transparent);
+
+  /* Central toolbar action tokens */
+  --ui-toolbar-action-bg: var(--ui-surface);
+  --ui-toolbar-action-hover: var(--ui-secondary);
+  --ui-toolbar-action-text: var(--text-main);
+  --ui-toolbar-action-border: var(--ui-border);
+
+  /* Isolated document/print/report tokens */
+  --doc-bg: var(--ui-surface);
+  --doc-card: var(--ui-card);
+  --doc-text: var(--text-main);
+  --doc-soft: var(--text-soft);
+  --doc-border: var(--ui-border);
+  --doc-primary: var(--ui-primary);
+  --doc-success: var(--ui-success);
+  --doc-danger: var(--ui-danger);
+  --receipt-bg: var(--ui-surface);
+  --receipt-text: var(--text-main);
+  --receipt-soft: var(--text-soft);
+  --receipt-border: var(--ui-border);
+  --receipt-header: var(--ui-primary-soft);
+  --receipt-accent: var(--ui-primary);
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ui-bg);
+  color: var(--text-main);
+  font-family: "Sriracha", cursive;
+  font-size: var(--ui-font-body);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  min-height: var(--ui-control-h);
+  border-radius: var(--ui-radius-control);
+  border: var(--ui-border-w) solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--text-main);
+  font-weight: 700;
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--ui-primary);
+  box-shadow: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: color-mix(in srgb, var(--text-soft) 70%, transparent);
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none !important;
+  padding-right: 0.75rem;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Legacy class bridge: old screens are forced into the token system */
+.ag-panel,
+.ag-card,
+.ai-panel,
+.ds-toolbar-frame,
+.outer-cont {
+  border-radius: var(--ui-radius-panel);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--text-main);
+  box-shadow: var(--ui-shadow-soft);
+}
+
+.ag-card:hover {
+  border-color: var(--ui-border-strong);
+  box-shadow: var(--ui-shadow-soft);
+}
+
+.ag-input {
+  width: 100%;
+  border-radius: var(--ui-radius-control);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--text-main);
+  padding: 0.5rem 0.75rem;
+}
+
+.ag-btn-primary,
+.primary-gradient-bg,
+.outer-cont {
+  background: var(--ui-primary);
+  color: var(--ui-on-primary);
+  border: 1px solid var(--ui-primary);
+  border-radius: var(--ui-radius-control);
+  box-shadow: var(--ui-shadow-control);
+}
+
+.ag-btn-secondary {
+  background: var(--ui-surface);
+  color: var(--text-main);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-control);
+}
+
+.ag-btn-danger {
+  background: transparent;
+  color: var(--ui-danger);
+  border: 1px solid var(--ui-danger);
+  border-radius: var(--ui-radius-control);
+}
+
+.ds-status-badge {
+  display: inline-flex;
+  min-width: 4rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ui-radius-badge);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-primary-soft);
+  color: var(--text-main);
+  font-weight: 900;
+}
+
+/* Global table fallback. React pages should use DataTable, but legacy/export previews still remain readable. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: var(--ui-panel);
+  color: var(--text-main);
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--ui-border);
+  font-weight: 800;
+}
+
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--ui-border);
+  color: var(--text-main);
+}
+
+tr:hover td {
+  background: var(--ui-hover);
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ui-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ui-border-strong);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-primary);
+}
+
+/* POS responsive layout: portrait stacks cart below, landscape/wide screens keep cart on the right. */
+.jirakit-central-ui .pos-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.jirakit-central-ui .pos-checkout-sidebar {
+  min-width: 0;
+}
+
+@media (orientation: landscape) and (min-width: 700px), (min-width: 1024px) {
+  .jirakit-central-ui .pos-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(
+        var(--ui-pos-sidebar-min-w),
+        var(--ui-pos-sidebar-max-w)
+      ) !important;
+  }
+
+  .jirakit-central-ui .pos-checkout-sidebar {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+  }
+}
+
+@media (max-width: 768px) {
+  #root main {
+    overscroll-behavior: contain;
+  }
+
+  #root table:not(.a4-page table) {
+    min-width: var(--ui-table-min-w-mobile);
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .ag-panel,
+  .ag-card,
+  .ai-panel {
+    background: white !important;
+    border: 1px solid var(--doc-border) !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CENTRAL UI FORCE LAYER
+   Applies to every working menu except the first menu (Dashboard).
+   This is the single command layer for buttons, color, controls and frames.
+   Do not fix individual screens with local hard-coded colors when this scope is active.
+---------------------------------------------------------------------------- */
+.jirakit-central-ui {
+  --central-ui-card-bg: var(--ui-surface);
+  --central-ui-card-border: var(--ui-border);
+  --central-ui-card-radius: var(--ui-radius-panel);
+  --central-ui-control-radius: var(--ui-radius-control);
+  --central-ui-button-bg: var(--ui-surface);
+  --central-ui-button-hover: var(--ui-secondary);
+  --central-ui-button-text: var(--text-main);
+  --central-ui-button-border: var(--ui-border);
+  --central-ui-button-active-bg: var(--ui-primary);
+  --central-ui-button-active-hover: var(--ui-primary-hover);
+  --central-ui-button-active-text: var(--ui-on-primary);
+  --central-ui-soft-bg: var(--ui-panel-soft);
+  --central-ui-table-header-bg: var(--ui-panel-soft);
+  --central-ui-table-line: color-mix(
+    in srgb,
+    var(--ui-border) 80%,
+    transparent
+  );
+  color: var(--text-main);
+}
+
+/* Every panel/card/table wrapper in non-dashboard menus must read from central tokens. */
+.jirakit-central-ui
+  :where(
+    .ai-panel,
+    .ag-panel,
+    .ag-card,
+    .ds-toolbar-frame,
+    .rounded-2xl,
+    .rounded-3xl
+  )[class*="border"],
+.jirakit-central-ui :where(section, article)[class*="border"],
+.jirakit-central-ui :where(.card, .panel) {
+  border-color: var(--central-ui-card-border) !important;
+  background: var(--central-ui-card-bg) !important;
+  color: var(--text-main) !important;
+  box-shadow: none !important;
+}
+
+/* Central button system: one surface, one active color, one border language. */
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .ag-btn-primary,
+    .ag-btn-secondary,
+    .ag-btn-danger,
+    .outer-cont
+  ) {
+  min-width: 0;
+  border-radius: var(--central-ui-control-radius) !important;
+  border: 1px solid var(--central-ui-button-border) !important;
+  background: var(--central-ui-button-bg) !important;
+  color: var(--central-ui-button-text) !important;
+  box-shadow: none !important;
+  font-weight: 900;
+}
+
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .ag-btn-primary,
+    .ag-btn-secondary,
+    .ag-btn-danger,
+    .outer-cont
+  ):hover:not(:disabled) {
+  background: var(--central-ui-button-hover) !important;
+  color: var(--central-ui-button-text) !important;
+  border-color: var(--ui-border-strong) !important;
+}
+
+/* Active/primary/action buttons stay central purple, never random local shades. */
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  ).primary-gradient-bg,
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-[var(--ui-primary)]"],
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-[var(--ui-selected)]"],
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-purple"],
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-indigo"],
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[aria-pressed="true"],
+.jirakit-central-ui
+  :where(button, [role="button"], .outer-cont, .ag-btn-primary).is-active,
+.jirakit-central-ui
+  :where(button, [role="button"], .outer-cont, .ag-btn-primary).active {
+  background: var(--central-ui-button-active-bg) !important;
+  color: var(--central-ui-button-active-text) !important;
+  border-color: var(--central-ui-button-active-bg) !important;
+}
+
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  ).primary-gradient-bg:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-[var(--ui-primary)]"]:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-[var(--ui-selected)]"]:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-purple"]:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[class*="bg-indigo"]:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  )[aria-pressed="true"]:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  ).is-active:hover:not(:disabled),
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .outer-cont,
+    .ag-btn-primary
+  ).active:hover:not(:disabled) {
+  background: var(--central-ui-button-active-hover) !important;
+  color: var(--central-ui-button-active-text) !important;
+  border-color: var(--central-ui-button-active-hover) !important;
+}
+
+/* Icons and text inside central buttons must follow the button color. */
+.jirakit-central-ui :where(button, [role="button"]) :where(svg, span) {
+  color: inherit;
+}
+
+/* Hard-coded old colors are converted back to the central palette inside non-dashboard menus. */
+.jirakit-central-ui
+  :where(
+    [class*="bg-blue"],
+    [class*="bg-green"],
+    [class*="bg-emerald"],
+    [class*="bg-red"],
+    [class*="bg-rose"],
+    [class*="bg-yellow"],
+    [class*="bg-amber"],
+    [class*="bg-orange"],
+    [class*="bg-slate"],
+    [class*="bg-gray"],
+    [class*="bg-zinc"],
+    [class*="bg-neutral"]
+  ) {
+  background-color: var(--central-ui-soft-bg) !important;
+}
+
+.jirakit-central-ui
+  :where(
+    button[class*="bg-blue"],
+    button[class*="bg-green"],
+    button[class*="bg-emerald"],
+    button[class*="bg-red"],
+    button[class*="bg-rose"],
+    button[class*="bg-yellow"],
+    button[class*="bg-amber"],
+    button[class*="bg-orange"],
+    button[class*="bg-slate"],
+    button[class*="bg-gray"],
+    button[class*="bg-zinc"],
+    button[class*="bg-neutral"]
+  ) {
+  background: var(--central-ui-button-bg) !important;
+  color: var(--central-ui-button-text) !important;
+  border-color: var(--central-ui-button-border) !important;
+}
+
+.jirakit-central-ui
+  :where(
+    [class*="text-blue"],
+    [class*="text-green"],
+    [class*="text-emerald"],
+    [class*="text-red"],
+    [class*="text-rose"],
+    [class*="text-yellow"],
+    [class*="text-amber"],
+    [class*="text-orange"],
+    [class*="text-slate"],
+    [class*="text-gray"],
+    [class*="text-zinc"],
+    [class*="text-neutral"],
+    [class*="text-indigo"],
+    [class*="text-purple"]
+  ) {
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui
+  :where(
+    [class*="border-blue"],
+    [class*="border-green"],
+    [class*="border-emerald"],
+    [class*="border-red"],
+    [class*="border-rose"],
+    [class*="border-yellow"],
+    [class*="border-amber"],
+    [class*="border-orange"],
+    [class*="border-slate"],
+    [class*="border-gray"],
+    [class*="border-zinc"],
+    [class*="border-neutral"],
+    [class*="border-indigo"],
+    [class*="border-purple"]
+  ) {
+  border-color: var(--central-ui-card-border) !important;
+}
+
+/* Inputs, dropdowns and textareas must share the same central frame. */
+.jirakit-central-ui :where(input, select, textarea, .ag-input) {
+  min-height: 2.75rem;
+  border-radius: var(--central-ui-control-radius) !important;
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  color: var(--text-main) !important;
+  box-shadow: none !important;
+  font-weight: 800;
+}
+
+.jirakit-central-ui :where(input, select, textarea, .ag-input):focus {
+  border-color: var(--ui-primary) !important;
+  box-shadow: none !important;
+}
+
+.jirakit-central-ui select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: none !important;
+  padding-right: 1rem !important;
+}
+
+/* Central table: one frame, centered headers, readable rows. */
+.jirakit-central-ui :where(table) {
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui :where(thead, tr[class*="ai-panel"]) {
+  background: var(--central-ui-table-header-bg) !important;
+}
+
+.jirakit-central-ui :where(th) {
+  color: var(--text-main) !important;
+  font-weight: 900 !important;
+  vertical-align: middle !important;
+}
+
+.jirakit-central-ui :where(td) {
+  color: var(--text-main) !important;
+  vertical-align: middle !important;
+}
+
+.jirakit-central-ui :where(tbody tr) {
+  border-color: var(--central-ui-table-line) !important;
+}
+
+/* Prevent double frames from generic Card/DataTable wrappers while preserving readable structure. */
+.jirakit-central-ui :where(.overflow-x-auto) > :where(table),
+.jirakit-central-ui :where(.overflow-x-auto) :where(table) {
+  box-shadow: none !important;
+}
+
+/* Badges/status pills also use the central token language. */
+.jirakit-central-ui
+  :where(
+    .ds-status-badge,
+    [class*="rounded-full"][class*="px-"],
+    [class*="rounded-lg"][class*="px-"]
+  ) {
+  border-color: var(--ui-border) !important;
+}
+
+/* Keep printable/A4 document surfaces stable; only app controls are forced. */
+.jirakit-central-ui
+  :where([id*="receipt"], [id*="contract-document"], .a4-page, .print-area)
+  :where(button) {
+  all: revert-layer;
+}
+
+/* --------------------------------------------------------------------------
+   CENTRAL UI CLEANUP PASS 2
+   Removes duplicate frames and standardizes controls through real shared classes.
+---------------------------------------------------------------------------- */
+.jrk-table-frame {
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-panel);
+  background: var(--ui-surface);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.jrk-table-frame table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
+
+.jrk-table-frame th,
+.jrk-table-frame td {
+  border-bottom: 1px solid var(--ui-border) !important;
+  vertical-align: middle !important;
+}
+
+.jrk-table-frame tbody tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+.jrk-table-frame th {
+  text-align: center !important;
+  background: var(--ui-panel-soft) !important;
+  color: var(--text-main) !important;
+}
+
+.jrk-table-frame td {
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui .ds-toolbar-frame,
+.jirakit-central-ui .jrk-toolbar-clean {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.jirakit-central-ui .jrk-control-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.jirakit-central-ui .jrk-select-compact {
+  width: auto !important;
+  min-width: var(--ui-select-compact-min-w) !important;
+  max-width: var(--ui-select-compact-max-w) !important;
+  flex: 0 0 auto !important;
+}
+
+.jirakit-central-ui .jrk-select-month {
+  width: var(--ui-select-month-w) !important;
+}
+
+.jirakit-central-ui .jrk-select-year {
+  width: var(--ui-select-year-w) !important;
+}
+
+.jirakit-central-ui .jrk-tabs-clean {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.jirakit-central-ui .jrk-button-active,
+.jirakit-central-ui .jrk-button-active:hover:not(:disabled) {
+  background: var(--ui-primary) !important;
+  color: var(--ui-on-primary) !important;
+  border-color: var(--ui-primary) !important;
+}
+
+.jirakit-central-ui .jrk-pill,
+.jirakit-central-ui .jrk-pill-soft {
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui .jrk-pill-active,
+.jirakit-central-ui .jrk-pill-active:hover:not(:disabled) {
+  border-color: var(--ui-primary) !important;
+  background: var(--ui-primary) !important;
+  color: var(--ui-on-primary) !important;
+}
+
+.jirakit-central-ui .jrk-menu-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.jirakit-central-ui .jrk-center-cell {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.jirakit-central-ui .jrk-alert-line {
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui .jrk-alert-line * {
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui .jrk-one-frame {
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  box-shadow: none !important;
+}
+
+.jirakit-central-ui .jrk-card-icon {
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  color: var(--ui-primary) !important;
+}
+
+.jirakit-central-ui option {
+  background: var(--ui-surface);
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+/* POS product cards are now a single clickable frame: no outer Card + inner Button double border. */
+.jirakit-central-ui .pos-product-card {
+  border: 1px solid var(--ui-border) !important;
+  background: var(--ui-surface) !important;
+  box-shadow: none !important;
+  color: var(--text-main) !important;
+}
+
+.jirakit-central-ui .pos-product-card:hover:not(:disabled) {
+  border-color: var(--ui-primary) !important;
+  background: var(--ui-surface) !important;
+}
+
+.jirakit-central-ui .pos-product-card-warning,
+.jirakit-central-ui .pos-product-card-warning:hover:not(:disabled) {
+  border-color: var(--ui-warning) !important;
+}
+
+.jirakit-central-ui .pos-product-card-critical,
+.jirakit-central-ui .pos-product-card-critical:hover:not(:disabled) {
+  border-color: var(--ui-danger) !important;
+}
+
+@media (max-width: 768px) {
+  .jirakit-central-ui .jrk-control-row,
+  .jirakit-central-ui .jrk-menu-button-group {
+    justify-content: stretch;
+  }
+
+  .jirakit-central-ui .jrk-control-row > *,
+  .jirakit-central-ui .jrk-menu-button-group > * {
+    flex: 1 1 100%;
+  }
+
+  .jirakit-central-ui .jrk-select-compact,
+  .jirakit-central-ui .jrk-select-month,
+  .jirakit-central-ui .jrk-select-year {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CENTRAL TABLE FRAME FINAL OVERRIDE
+   Single source of truth for every DataTable frame.
+   Keeps one outer rounded frame, one header separator and row separators only.
+---------------------------------------------------------------------------- */
+.jrk-table-frame {
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--ui-border) !important;
+  border-radius: var(--ui-radius-panel) !important;
+  background: var(--ui-surface) !important;
+  color: var(--text-main) !important;
+  box-shadow: none !important;
+}
+
+.jrk-table-frame > .w-full {
+  border-radius: inherit !important;
+}
+
+.jrk-table-frame table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: transparent !important;
+  color: var(--text-main) !important;
+}
+
+.jrk-table-frame thead,
+.jrk-table-frame thead tr,
+.jrk-table-frame thead th {
+  background: var(--ui-panel-soft) !important;
+  color: var(--text-main) !important;
+}
+
+.jrk-table-frame th,
+.jrk-table-frame td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 1px solid var(--ui-border) !important;
+  vertical-align: middle !important;
+}
+
+.jrk-table-frame th {
+  font-weight: 900 !important;
+}
+
+.jrk-table-frame tbody tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+.jrk-table-frame tbody tr:hover td {
+  background: var(--ui-hover) !important;
+}
+
+/* --------------------------------------------------------------------------
+   CENTRAL UI EXACT SIZE FINAL PASS
+   Locks the latest agreed component standards to the central token layer only.
+   Do not create one-off sizes in individual screens; update these tokens instead.
+---------------------------------------------------------------------------- */
+.jirakit-central-ui {
+  --central-ui-card-radius: var(--ui-radius-card);
+  --central-ui-control-radius: var(--ui-radius-control);
+  font-size: var(--ui-font-body);
+}
+
+.jirakit-central-ui
+  :where(
+    .ai-panel,
+    .ag-panel,
+    .ag-card,
+    .ds-toolbar-frame,
+    .outer-cont,
+    .jrk-one-frame,
+    .jrk-table-frame
+  ) {
+  border-width: var(--ui-border-w) !important;
+  border-radius: var(--ui-radius-card) !important;
+}
+
+.jirakit-central-ui :where(.ai-panel, .ag-panel, .ag-card, .jrk-one-frame) {
+  padding: var(--ui-card-pad) !important;
+}
+
+.jirakit-central-ui
+  :where(
+    button,
+    [role="button"],
+    .ag-btn-primary,
+    .ag-btn-secondary,
+    .ag-btn-danger,
+    .outer-cont
+  ) {
+  min-height: var(--ui-button-h) !important;
+  border-width: var(--ui-border-w) !important;
+  border-radius: var(--ui-radius-control) !important;
+  font-size: var(--ui-font-button) !important;
+  line-height: 1.2 !important;
+  gap: var(--ui-gap-button) !important;
+}
+
+.jirakit-central-ui
+  :where(.jrk-control-row, .jrk-menu-button-group, .jrk-tabs-clean) {
+  gap: var(--ui-gap-button) !important;
+}
+
+.jirakit-central-ui :where(input, select, textarea, .ag-input) {
+  min-height: var(--ui-control-h) !important;
+  border-width: var(--ui-border-w) !important;
+  border-radius: var(--ui-radius-control) !important;
+  font-size: var(--ui-font-body) !important;
+  line-height: 1.2 !important;
+}
+
+.jirakit-central-ui :where(label, .jrk-label, [class*="text-xs"]) {
+  font-size: var(--ui-font-label) !important;
+  line-height: 1.25 !important;
+}
+
+:where(button[class*="p-0"], button[class*="aspect-square"]) {
+  width: var(--ui-icon-hit) !important;
+  min-width: var(--ui-icon-hit) !important;
+  height: var(--ui-icon-hit) !important;
+  min-height: var(--ui-icon-hit) !important;
+  padding: 0 !important;
+}
+
+.jirakit-central-ui
+  :where(button[class*="p-0"], button[class*="aspect-square"])
+  :where(svg) {
+  width: var(--ui-icon-size) !important;
+  height: var(--ui-icon-size) !important;
+}
+
+.jirakit-central-ui :where(svg) {
+  flex-shrink: 0;
+}
+
+.jirakit-central-ui button[class*="h-6"][class*="w-11"] {
+  width: var(--ui-switch-w) !important;
+  min-width: var(--ui-switch-w) !important;
+  height: var(--ui-switch-h) !important;
+  min-height: var(--ui-switch-h) !important;
+  padding: 0 !important;
+}
+
+.jirakit-central-ui button[class*="h-6"][class*="w-11"] :where(span) {
+  width: var(--ui-switch-thumb) !important;
+  height: var(--ui-switch-thumb) !important;
+}
+
+.jirakit-central-ui :where(table) {
+  font-size: var(--ui-font-body) !important;
+}
+
+.jirakit-central-ui :where(thead tr, tbody tr) {
+  height: var(--ui-table-row-h) !important;
+}
+
+.jirakit-central-ui :where(th, td),
+.jrk-table-frame :where(th, td) {
+  height: var(--ui-table-row-h) !important;
+  padding-block: calc(var(--ui-space-base) * 2) !important;
+  padding-inline: calc(var(--ui-space-base) * 3) !important;
+}
+
+.jirakit-central-ui :where(.grid):has(> .pos-product-card) {
+  grid-template-columns: repeat(
+    var(--ui-pos-product-cols),
+    minmax(0, 1fr)
+  ) !important;
+  gap: var(--ui-gap-button) !important;
+}
+
+.jirakit-central-ui .pos-product-card {
+  min-height: var(--ui-button-h) !important;
+  border-width: var(--ui-border-w) !important;
+  border-radius: var(--ui-radius-card) !important;
+  padding: var(--ui-card-pad-sm) !important;
+  font-size: var(--ui-font-button) !important;
+}
+
+.jirakit-central-ui .pos-search-input {
+  min-height: var(--ui-control-h) !important;
+}
+
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+}
+
+.a5-page {
+  width: 148mm;
+  min-height: 210mm;
+}
+
+@media (max-width: 768px) {
+  .jirakit-central-ui :where(.ai-panel, .ag-panel, .ag-card, .jrk-one-frame) {
+    padding: var(--ui-card-pad-sm) !important;
+  }
+
+  .jirakit-central-ui
+    :where(button, [role="button"], input, select, textarea, .ag-input) {
+    min-height: var(--ui-control-h) !important;
+  }
+}
