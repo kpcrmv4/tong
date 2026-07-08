@@ -1264,16 +1264,51 @@ export class JirakitDB {
     }
   }
 
-  // Cloud Sync & Notifications
+  // ==========================================
+  // LINE Messaging API (push notifications)
+  // ==========================================
+  // Fire-and-forget push via the /api/line proxy. Configured from the web UI
+  // (Settings > LINE): Channel Access Token + target LINE User ID.
   static async sendLineNotify(message: string): Promise<void> {
-    console.warn('LINE Notify is disabled in Step 1. Messaging API will be implemented in Step 3.', message);
+    try {
+      const s = this.getSettings() as SystemSettings & Record<string, any>;
+      if (s.LINE_NOTIFY_ENABLED === false) return;
+      const token = s.LINE_TOKEN || '';
+      const userId = s.LINE_USER_ID || '';
+      if (!token || !userId) return; // not configured yet -> skip silently
+      await fetch('/api/line', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, token, userId }),
+      });
+    } catch (err) {
+      console.warn('LINE notify failed', err);
+    }
   }
 
-  static async testLineNotify(customToken?: string, customGasUrl?: string): Promise<{success: boolean, error?: string}> {
-    return {
-      success: false,
-      error: 'LINE Notify was disabled in Step 1 and will be changed to LINE Messaging API in Step 3'
-    };
+  static async testLineNotify(customToken?: string, customUserId?: string): Promise<{success: boolean, error?: string}> {
+    const s = this.getSettings() as SystemSettings & Record<string, any>;
+    const token = (customToken ?? s.LINE_TOKEN) || '';
+    const userId = (customUserId ?? s.LINE_USER_ID) || '';
+    if (!token || !userId) {
+      return { success: false, error: 'กรุณากรอก Channel Access Token และ LINE User ID ก่อนทดสอบ' };
+    }
+    try {
+      const res = await fetch('/api/line', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: '✅ ทดสอบการแจ้งเตือนจากระบบ POS จีรกิตติ์ ไม้แบบ สำเร็จแล้ว!',
+          token,
+          userId,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.success) return { success: true };
+      return { success: false, error: data?.error || `HTTP ${res.status}` };
+    } catch (e: any) {
+      return { success: false, error: e?.message || 'network error' };
+    }
   }
 
   static getBackupData(): object {

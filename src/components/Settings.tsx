@@ -47,6 +47,9 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
   const [lineToken, setLineToken] = useState('');
   const [geminiApiKey, setGeminiApiKey] = useState('');
   const [geminiModel, setGeminiModel] = useState('');
+  const [lineUserId, setLineUserId] = useState('');
+  const [lineNotifyEnabled, setLineNotifyEnabled] = useState(true);
+  const [lineTesting, setLineTesting] = useState(false);
   const [alertsOverdueDays, setAlertsOverdueDays] = useState(3);
   const [alertsLowStockGlobal, setAlertsLowStockGlobal] = useState(10);
   const [lineId, setLineId] = useState('');
@@ -72,6 +75,7 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
     { id: 'documentTemplate', title: 'เอกสาร / เทมเพลต', icon: '📄', description: 'ตั้งค่าเทมเพลต หัวเอกสาร ท้ายเอกสาร' },
     { id: 'contractTemplate', title: 'สัญญาเช่า', icon: '📝', description: 'เลขที่สัญญา เงื่อนไขเริ่มต้น ข้อความมาตรฐาน' },
     { id: 'ai', title: 'AI / OCR (Gemini)', icon: '🤖', description: 'ตั้งค่า Gemini API Key และชื่อโมเดลสำหรับอ่านบัตร (OCR)' },
+    { id: 'line', title: 'แจ้งเตือน LINE', icon: '💬', description: 'Channel Access Token + LINE User ID สำหรับ push แจ้งเตือน' },
     { id: 'backup', title: 'สำรองข้อมูล', icon: '💾', description: 'Backup Restore Export Import' },
     { id: 'system', title: 'ระบบ / ความปลอดภัย', icon: '⚙️', description: 'ธีม สิทธิ์ผู้ใช้ รหัสผ่าน Offline Mode' },
   ];
@@ -129,6 +133,8 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
     setFootnote(s.RECEIPT_FOOTNOTE);
     setGasAppUrl(s.GAS_WEBAPP_URL || '');
     setLineToken(s.LINE_TOKEN || '');
+    setLineUserId(s.LINE_USER_ID || '');
+    setLineNotifyEnabled(s.LINE_NOTIFY_ENABLED ?? true);
     setGeminiApiKey(s.GEMINI_API_KEY || '');
     setGeminiModel(s.GEMINI_MODEL || '');
     setAlertsOverdueDays(s.ALERTS_OVERDUE_DAYS ?? 3);
@@ -150,6 +156,22 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
       action();
     } else {
       setPinModal({ isOpen: true, action, input: '' });
+    }
+  };
+
+  const handleTestLine = async () => {
+    setLineTesting(true);
+    try {
+      const r = await JirakitDB.testLineNotify(lineToken.trim(), lineUserId.trim());
+      if (r.success) {
+        alert('✅ ส่งข้อความทดสอบเข้า LINE สำเร็จ! ตรวจสอบที่แชท LINE ของคุณ');
+      } else {
+        alert('❌ ส่งไม่สำเร็จ: ' + (r.error || 'unknown'));
+      }
+    } catch (err: any) {
+      alert('❌ Error: ' + (err?.message || err));
+    } finally {
+      setLineTesting(false);
     }
   };
 
@@ -257,10 +279,11 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
       VAT_MODE: vatMode,
       RECEIPT_PAPER_SIZE: receiptPaperSize,
       GAS_WEBAPP_URL: gasAppUrl,
-      LINE_TOKEN: lineToken,
+      LINE_TOKEN: lineToken.trim(),
+      LINE_USER_ID: lineUserId.trim(),
+      LINE_NOTIFY_ENABLED: lineNotifyEnabled,
       GEMINI_API_KEY: geminiApiKey.trim(),
       GEMINI_MODEL: geminiModel.trim(),
-      LINE_NOTIFY_ENABLED: false,
       ALERTS_OVERDUE_DAYS: Number(alertsOverdueDays),
       ALERTS_LOW_STOCK_GLOBAL: Number(alertsLowStockGlobal),
       LINE_ID: lineId,
@@ -634,12 +657,89 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
               </>
             )}
 
-            {activeCategory === 'backup' && (
+            {activeCategory === 'line' && (
               <>
-                {/* Cloud Sync & Notifications */}
+                {/* LINE Messaging API */}
             <div className="lg:col-span-2 p-5 border border-[var(--ui-border)] rounded-xl ai-panel space-y-4">
               <h3 className="text-sm font-black text-[var(--text-main)] flex items-center gap-1.5 pb-2.5 border-b border-[var(--ui-border)]">
-                <ExternalLink className="stroke-[var(--ui-primary)]" size={15} /> ระบบเชื่อมโยงฐานข้อมูลคลาวด์ (Supabase) และแจ้งเตือน (LINE)
+                <span className="text-base">💬</span> แจ้งเตือนผ่าน LINE (Messaging API)
+              </h3>
+
+              <div className="space-y-3.5">
+                <div className="p-3 border border-[var(--ui-border)] rounded-xl ai-panel">
+                  <p className="text-[10px] text-[var(--text-soft)] leading-relaxed">
+                    ใช้ LINE Official Account + Messaging API (LINE Notify เดิมถูกปิดบริการแล้ว)
+                    สร้าง OA ที่ developers.line.biz แล้วนำ <b>Channel Access Token</b> มาใส่
+                    ส่วน <b>LINE User ID</b> คือรหัสผู้รับ (เพิ่ม OA เป็นเพื่อนแล้วดึง userId ผ่าน webhook)
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-[var(--text-soft)] mb-1.5 uppercase tracking-wide">LINE Channel Access Token</label>
+                  <Input
+                    type="password"
+                    autoComplete="off"
+                    className="w-full ai-panel border border-[var(--ui-border)] rounded-lg px-3.5 min-h-[44px] text-[var(--ui-primary)] font-mono text-xs"
+                    placeholder="วาง Channel Access Token (long-lived) ที่นี่"
+                    value={lineToken}
+                    onChange={e => setLineToken(e.target.value)}
+                  />
+                  <p className="mt-1.5 text-[10px] text-[var(--text-soft)]">หากเว้นว่าง ระบบจะใช้ค่า env LINE_CHANNEL_ACCESS_TOKEN ฝั่งเซิร์ฟเวอร์แทน</p>
+                </div>
+
+                <div>
+                  <label className="block text-[var(--text-soft)] mb-1.5 uppercase tracking-wide">LINE User ID (ผู้รับแจ้งเตือน)</label>
+                  <Input
+                    type="text"
+                    autoComplete="off"
+                    className="w-full ai-panel border border-[var(--ui-border)] rounded-lg px-3.5 min-h-[44px] text-[var(--text-main)] font-mono text-xs"
+                    placeholder="Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    value={lineUserId}
+                    onChange={e => setLineUserId(e.target.value)}
+                  />
+                  <p className="mt-1.5 text-[10px] text-[var(--text-soft)]">รหัสขึ้นต้นด้วย U ตามด้วยตัวอักษร/ตัวเลข 32 หลัก</p>
+                </div>
+
+                <div className="flex items-center gap-3 mt-2 p-3 border border-[var(--ui-border)] rounded-xl ai-panel">
+                  <button
+                    type="button"
+                    onClick={() => setLineNotifyEnabled(v => !v)}
+                    className={`w-10 h-5 rounded-full flex items-center p-0.5 transition-colors ${lineNotifyEnabled ? 'bg-[var(--ui-primary)]' : 'bg-[var(--ui-border)]'}`}
+                    aria-pressed={lineNotifyEnabled}
+                  >
+                    <div className={`bg-[var(--ui-surface)] w-4 h-4 rounded-full shadow-sm transform transition-transform ${lineNotifyEnabled ? 'translate-x-5' : 'translate-x-0'}`}></div>
+                  </button>
+                  <div>
+                    <label className="text-sm font-bold text-[var(--text-main)] select-none">
+                      เปิดใช้งานแจ้งเตือน LINE
+                    </label>
+                    <p className="text-[10px] text-[var(--text-soft)]">ส่งแจ้งเตือนอัตโนมัติเมื่อออกบิล / รับคืน / สินค้าใกล้หมด / สร้างสัญญา</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleTestLine}
+                    disabled={lineTesting}
+                    className="flex-1"
+                  >
+                    {lineTesting ? 'กำลังส่ง...' : '📨 ส่งข้อความทดสอบเข้า LINE'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+              </>
+            )}
+
+            {activeCategory === 'backup' && (
+              <>
+                {/* Cloud Sync (Supabase) */}
+            <div className="lg:col-span-2 p-5 border border-[var(--ui-border)] rounded-xl ai-panel space-y-4">
+              <h3 className="text-sm font-black text-[var(--text-main)] flex items-center gap-1.5 pb-2.5 border-b border-[var(--ui-border)]">
+                <ExternalLink className="stroke-[var(--ui-primary)]" size={15} /> ระบบเชื่อมโยงฐานข้อมูลคลาวด์ (Supabase)
               </h3>
 
               <div className="space-y-3.5">
@@ -649,54 +749,9 @@ export default function Settings({ refreshCount, triggerRefresh }: SettingsProps
                     ระบบซิงค์ข้อมูลขึ้น Supabase อัตโนมัติทุกครั้งที่บันทึก และอัปเดตข้ามเครื่องแบบเรียลไทม์ (Broadcast)
                     ตั้งค่าการเชื่อมต่อผ่าน VITE_SUPABASE_URL และ VITE_SUPABASE_ANON_KEY (ไฟล์ .env)
                   </p>
-                </div>
-
-                <div>
-                  <label className="block text-[var(--text-soft)] mb-1.5 uppercase tracking-wide">LINE Messaging API (Step 3 - ยังไม่เปิดใช้งาน)</label>
-                  <Input
-                    type="password"
-                    className="w-full ai-panel border border-[var(--ui-border)] rounded-lg px-3.5 min-h-[44px] text-[var(--text-soft)] font-mono text-xs opacity-70"
-                    placeholder="จะตั้งค่าผ่าน LINE Official Account / Messaging API ใน Step 3"
-                    value={lineToken}
-                    onChange={e => setLineToken(e.target.value)}
-                    disabled
-                  />
-                  <p className="mt-1.5 text-[10px] text-[var(--ui-warning)] font-bold">ยังไม่เปิดใช้งาน: LINE Notify เดิมถูกปิดใน Step 1 เพื่อไม่ให้เข้าใจว่าส่งแจ้งเตือนได้จริง</p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-4 p-3 border border-[var(--ui-border)] rounded-xl ai-panel opacity-70">
-                  <div 
-                    className="w-10 h-5 rounded-full flex items-center p-0.5 cursor-not-allowed transition-colors bg-[var(--ui-border)]"
-                  >
-                    <div className="bg-[var(--ui-surface)] w-4 h-4 rounded-full shadow-sm transform transition-transform translate-x-0"></div>
-                  </div>
-                  <div>
-                    <label className="text-sm font-bold text-[var(--text-main)] select-none">
-                      แจ้งเตือน LINE ยังไม่เปิดใช้งาน
-                    </label>
-                    <p className="text-[10px] text-[var(--text-soft)]">Step 3 จะทำผ่าน LINE Official Account / Messaging API เท่านั้น</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="flex-1 opacity-60 cursor-not-allowed"
-                    disabled
-                  >
-                    ยังไม่เปิดใช้งาน - แจ้งหนี้ทาง LINE
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="flex-1 opacity-60 cursor-not-allowed"
-                    disabled
-                  >
-                    ยังไม่เปิดใช้งาน - แจ้งคืนบิลทาง LINE
-                  </Button>
+                  <p className="text-[10px] text-[var(--text-soft)] leading-relaxed mt-2">
+                    ตั้งค่าแจ้งเตือน LINE ได้ที่เมนู “แจ้งเตือน LINE” 💬
+                  </p>
                 </div>
               </div>
             </div>

@@ -17,6 +17,7 @@ export interface SystemSettings {
   RECEIPT_WARNING: string;
   GAS_WEBAPP_URL: string;
   LINE_TOKEN: string;
+  LINE_USER_ID?: string;
   LINE_NOTIFY_ENABLED?: boolean;
   GEMINI_API_KEY?: string;
   GEMINI_MODEL?: string;
